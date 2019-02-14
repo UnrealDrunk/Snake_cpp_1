@@ -1,5 +1,6 @@
 #include<iostream>
 #include<conio.h>
+#include<Windows.h>
 
 using namespace std;
 
@@ -26,8 +27,15 @@ void Setup()
 void Draw()
 {
 	system("cls");
+	void* handle = GetStdHandle(STD_OUTPUT_HANDLE);
+	CONSOLE_CURSOR_INFO structCursorInfo;
+	GetConsoleCursorInfo(handle, &structCursorInfo);
+	structCursorInfo.bVisible = FALSE;
+	SetConsoleCursorInfo(handle, &structCursorInfo);
+
+
 	for (int i = 0; i < width+1; i++)
-		cout << "#";
+		cout << "\xDB";
 	cout << endl;
 
 	for(int i = 0; i < height; i++)
@@ -35,7 +43,7 @@ void Draw()
 		for (int j = 0; j < width; j++)
 		{
 			if (j == 0 || j == width -1)
-				cout << "#";
+				cout << "\xDB";
 			if (i == y && j == x)
 				cout << "0";
 			else if (i == FruitY && j == fruitX)
@@ -61,7 +69,7 @@ void Draw()
 	}
 
 	for (int i = 0; i < width+1; i++)
-		cout << "#";
+		cout << "\xDB";
 	cout << endl;
 	cout << "Score: " << score << endl;
 }
@@ -131,7 +139,7 @@ void Logic()
 		//GameOver = true;
 
 	if (x >= width - 1)
-		x = 0;
+		x = 0;	
 	else if (x < 0)
 		x = width - 2;
 
