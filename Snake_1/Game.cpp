@@ -35,7 +35,7 @@ void Draw()
 
 
 	for (int i = 0; i < width+1; i++)
-		cout << "\xDB";
+		cout << "#";
 	cout << endl;
 
 	for(int i = 0; i < height; i++)
@@ -43,7 +43,7 @@ void Draw()
 		for (int j = 0; j < width; j++)
 		{
 			if (j == 0 || j == width -1)
-				cout << "\xDB";
+				cout << "#";
 			if (i == y && j == x)
 				cout << "0";
 			else if (i == FruitY && j == fruitX)
@@ -69,9 +69,27 @@ void Draw()
 	}
 
 	for (int i = 0; i < width+1; i++)
-		cout << "\xDB";
+		cout << "#";
 	cout << endl;
-	cout << "Score: " << score << endl;
+	/*cout << "Game rules: " << endl << "use 'W' 'A' 'S' 'D' to control snake's direction, try to eat (F) fruits to get scores" << endl;
+	cout << "Every eaten fruit gives you 10 scores. Yor goal is to reach the ammount of 200 scores" << endl;
+	cout << "You can walk through the walls and teleport back to the area from the other side of the game field" << endl;
+	cout << "But this teleportation isn't for free, it will reduce your ammount of scores by 10 each time you touch the wall" << endl;
+	cout << "The reason not to allow your score balance be lower than zero is the Game is over" << endl;
+	cout << "By the way, don't touch your tail, it's very dangerous for the hungry snake :) " << endl;*/
+
+	
+	cout << endl << "Score: " << score << endl;
+	if (score < 0)
+	{
+		cout << " Game over" << endl;
+		system("Pause");
+	}
+	else if (score > 190)
+	{
+		cout << " YOU WIN!!! Congratulations" << endl;
+		system("Pause");
+	}
 }
 
 void Input()
@@ -139,19 +157,37 @@ void Logic()
 		//GameOver = true;
 
 	if (x >= width - 1)
-		x = 0;	
+	{
+		x = 0;
+		score -= 10;
+	}
 	else if (x < 0)
+	{
 		x = width - 2;
+		score -= 10;
+	}
+
 
 	if (y >= height)
+	{
 		y = 0;
+		score -= 10;
+	}
 	else if (y < 0)
+	{
 		y = height - 1;
+		score -= 10;
+	}
 
+		
 	for (int i = 0; i < nTail; i++)
 	{
 		if (tailX[i] == x && tailY[i] == y)
+		{
 			GameOver = true;
+			system("Pause");
+		}
+			
 	}
 
 	if (x == fruitX && y == FruitY)
