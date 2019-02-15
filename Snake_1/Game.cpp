@@ -7,7 +7,7 @@ using namespace std;
 bool GameOver;
 const int width = 20;
 const int height = 20;
-int x, y, fruitX, FruitY, score;
+int x, y, fruitX, FruitY, PoisonX, PoisonY, score;
 int tailX[100], tailY[100];
 int nTail;
 enum eDirection { STOP = 0, LEFT, RIGHT, UP, DOWN };
@@ -19,9 +19,12 @@ void Setup()
 	dir = STOP;
 	x = width / 2 - 1;
 	y = height / 2 - 1;
-	fruitX = rand() % width;
-	FruitY = rand() % height;
-	score = 0;
+	fruitX = rand() % (width -1);
+	FruitY = rand() % (height -1);
+	PoisonX = rand() % (width - 1);
+	PoisonY = rand() % (height -1);
+
+	score = 10;
 }
 
 void Draw()
@@ -48,6 +51,8 @@ void Draw()
 				cout << "0";
 			else if (i == FruitY && j == fruitX)
 				cout << "F";
+			else if (i == PoisonY && j == PoisonX)
+				cout << "S";
 			else
 			{
 				bool print = false;
@@ -90,6 +95,7 @@ void Draw()
 		cout << " YOU WIN!!! Congratulations" << endl;
 		system("Pause");
 	}
+
 }
 
 void Input()
@@ -185,6 +191,7 @@ void Logic()
 		if (tailX[i] == x && tailY[i] == y)
 		{
 			GameOver = true;
+			cout << "Game over!!! Snake just ate it's tail" << endl;;
 			system("Pause");
 		}
 			
@@ -195,8 +202,23 @@ void Logic()
 		score += 10;
 		fruitX = rand() % width;
 		FruitY = rand() % height;
+		PoisonX = rand() % width;
+		PoisonY = rand() % height;
 		nTail++;
 	}
+	if (x == PoisonX && y == PoisonY)
+	{
+		score = (int)score - (int)(score * 0.3);
+		PoisonX = rand() % width;
+		PoisonY = rand() % height;
+		fruitX = rand() % width;
+		FruitY = rand() % height;
+		nTail++;
+	}
+
+
+
+
 }
 
 int main()
